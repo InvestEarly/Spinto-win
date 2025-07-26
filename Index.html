@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Melinta's Birthday Spinner</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: #ff4081;
+    }
+    #wheel {
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      border: 10px solid #fff;
+      position: relative;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+    .slice {
+      position: absolute;
+      width: 50%;
+      height: 50%;
+      background: #ffeb3b;
+      transform-origin: 100% 100%;
+      clip-path: polygon(100% 100%, 0% 100%, 100% 0);
+      text-align: center;
+      font-weight: bold;
+      color: #333;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #pointer {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 30px solid red;
+      position: absolute;
+      top: -30px;
+      left: 190px;
+    }
+    #spinBtn {
+      margin-top: 30px;
+      padding: 12px 30px;
+      font-size: 18px;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 5px #ad1457;
+    }
+    #spinBtn:active {
+      box-shadow: none;
+      transform: translateY(4px);
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 24px;
+      color: #4caf50;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>🎉 Happy Birthday Melinta! 🎉</h1>
+  <div id="pointer"></div>
+  <div id="wheel"></div>
+  <button id="spinBtn">Spin the Wheel!</button>
+  <div id="result"></div>
+  <footer>With love ❤️ - Your Surprise Gift Spinner</footer>  <script>
+    const options = [
+      "👗 Clothes",
+      "💄 Perfume",
+      "👠 Shoes",
+      "🛍️ 2000 Gift Card",
+      "🙈 Nothing",
+      "💸 3000 Cash"
+    ];
+
+    const wheel = document.getElementById("wheel");
+    const spinBtn = document.getElementById("spinBtn");
+    const result = document.getElementById("result");
+
+    const colors = ["#ffd700", "#ff69b4", "#87ceeb", "#ffa07a", "#98fb98", "#ffdab9"];
+
+    const degPerSlice = 360 / options.length;
+    options.forEach((option, i) => {
+      const slice = document.createElement("div");
+      slice.className = "slice";
+      slice.style.background = colors[i % colors.length];
+      slice.style.transform = `rotate(${i * degPerSlice}deg) skewY(-60deg)`;
+      slice.innerHTML = `<div style="transform: skewY(60deg) rotate(${degPerSlice / 2}deg); width: 100px;">${option}</div>`;
+      wheel.appendChild(slice);
+    });
+
+    spinBtn.onclick = () => {
+      spinBtn.disabled = true;
+      result.innerText = "Spinning...";
+      const target = options.indexOf("💸 3000 Cash");
+      const stopAt = 360 * 5 + (360 - (target * degPerSlice + degPerSlice / 2));
+      wheel.style.transition = "transform 5s ease-out";
+      wheel.style.transform = `rotate(${stopAt}deg)`;
+
+      setTimeout(() => {
+        result.innerText = `🎁 You got: 💸 3000 Cash!`;
+        spinBtn.disabled = false;
+      }, 5200);
+    };
+  </script></body>
+</html>
